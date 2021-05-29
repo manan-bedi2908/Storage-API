@@ -1,5 +1,6 @@
-from flask import Flask, request
+from flask import render_template, url_for, flash, redirect, request, Flask, jsonify
 from PIL import Image
+
 
 app = Flask(__name__)
 
@@ -17,16 +18,17 @@ def find_dominant_color(filename):
     dominant_color = sorted_pixels[-1][1]
     return dominant_color
 
-filename = r"C:\Users\WINDOWS 10\Desktop\hackCBS4.0-responsive\assets\images\first.png"
 
 @app.route('/')
 def home():
     return "<h1>Home Page</h1>"
 
-@app.route('/store', methods='GET','POST')
+@app.route('/store', methods=['GET','POST'])
 def store():
-    src = ""
+    file =  r"C:\Users\WINDOWS 10\Desktop\hackCBS4.0-responsive\assets\images\liq-4.png"
+    dom_color = find_dominant_color(file)
+    return jsonify({"Dominant Color": dom_color})
 
 
-if __name__ == 'main':
-    app.run(debug=True)
+if __name__ == "__main__":
+    app.run(port=8000, debug=True)  # running the app on the local machine on port 8000
